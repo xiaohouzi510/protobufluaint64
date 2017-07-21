@@ -1,0 +1,8 @@
+syntax = "proto2";
+
+message SSInt64Test
+{
+    optional int32 PvpType      = 1;
+    optional int64 TeamID       = 2;
+    optional int32 HardType     = 3;
+}

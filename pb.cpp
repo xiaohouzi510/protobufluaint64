@@ -694,7 +694,6 @@ extern "C"
             { NULL, NULL },
         };
         luaL_register(L,NULL,lib);
-        lua_pop(L,1);
     }
     static const struct luaL_reg int64_reg [] = {
             {"new", int64_new},
@@ -709,7 +708,6 @@ extern "C"
         make_mt(L);
         lua_newtable(L);
         luaL_register(L,"int64",int64_reg);
-        lua_pop(L,1);
         return 1;
     }
 
@@ -762,7 +760,7 @@ extern "C"
 
     int luaopen_pb (lua_State *L)
     {
-        // luaopen_int64(L);
+        luaopen_int64(L);
         luaL_newmetatable(L, IOSTRING_META);
         lua_pushvalue(L, -1);
         lua_setfield(L, -2, "__index");
