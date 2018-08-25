@@ -30,6 +30,8 @@ local type = type
 local assert = assert
 local tonumber = tonumber
 local getmetatable = getmetatable
+local int64 = int64
+local uint64 = uint64
 
 local pb = require "pb"
 local wire_format = require "wire_format"
@@ -141,9 +143,9 @@ local NON_PACKABLE_TYPES = {
 
 local _VALUE_CHECKERS = {
     [FieldDescriptor.CPPTYPE_INT32] = type_checkers.Int32ValueChecker(),
-    [FieldDescriptor.CPPTYPE_INT64] = type_checkers.TypeChecker({userdata = true}),
+    [FieldDescriptor.CPPTYPE_INT64] = type_checkers.Type64Checker({int64=getmetatable(int64.new())}),
     [FieldDescriptor.CPPTYPE_UINT32] = type_checkers.Uint32ValueChecker(),
-    [FieldDescriptor.CPPTYPE_UINT64] = type_checkers.TypeChecker({userdata = true}),
+    [FieldDescriptor.CPPTYPE_UINT64] = type_checkers.Type64Checker({uint64=getmetatable(uint64.new())}),
     [FieldDescriptor.CPPTYPE_DOUBLE] = type_checkers.TypeChecker({number = true}),
     [FieldDescriptor.CPPTYPE_FLOAT] = type_checkers.TypeChecker({number = true}),
     [FieldDescriptor.CPPTYPE_BOOL] = type_checkers.TypeChecker({boolean = true, bool = true, int=true}),

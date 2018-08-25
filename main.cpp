@@ -55,7 +55,7 @@ int main(int argc,char *argv[])
 	string sStr;
 	stProto.SerializeToString(&sStr);
 	lua_pushlstring(L,sStr.c_str(),stProto.ByteSize());
-	printf("------------------------------\n");
+	printf("------------------------------1\n");
 	printf("%s\n",stProto.DebugString().c_str());
 	if(lua_pcall(L,1,0,0) != 0)
 	{

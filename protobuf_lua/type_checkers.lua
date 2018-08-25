@@ -19,6 +19,9 @@
 local type = type
 local error = error
 local string = string
+local next = next
+local getmetatable = getmetatable
+local debug = debug
 
 module "type_checkers"
 function TypeChecker(acceptable_types)
@@ -29,6 +32,15 @@ function TypeChecker(acceptable_types)
         if acceptable_types[type(proposed_value)] == nil then
             error(string.format('%s has type %s, but expected one of: %s', 
                 proposed_value, type(proposed_value), acceptable_types))
+        end
+    end
+end
+
+function Type64Checker(acceptable_types)
+    local key,value = next(acceptable_types)
+    return function(proposed_value)
+        if getmetatable(proposed_value) ~= value then
+            error(string.format("type is error must %s userdata %s",key,debug.traceback()))
         end
     end
 end
