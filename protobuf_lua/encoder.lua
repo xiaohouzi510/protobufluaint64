@@ -19,6 +19,9 @@ local string = string
 local table = table
 local ipairs = ipairs
 local assert =assert
+local print = print
+local type = type
+local getmetatable = getmetatable
 
 local pb = require "pb"
 local wire_format = require "wire_format"
@@ -42,6 +45,7 @@ function _SignedVarintSize(value)
 end
 
 local _int64size = pb.int64_size
+local _uint64size = pb.uint64_size
 
 function _TagSize(field_number)
   return _VarintSize(wire_format.PackTag(field_number, 0))
@@ -71,15 +75,6 @@ function _SimpleSizer(compute_value_size)
             return function (value)
                 return tag_size + compute_value_size(value)
             end
-        end
-    end
-end
-
-function _Int64Sizer(compute_value_size)
-    return function(field_number)
-        local tag_size = _TagSize(field_number)
-        return function (value)
-            return tag_size + compute_value_size(value)
         end
     end
 end
@@ -136,11 +131,11 @@ function _FixedSizer(value_size)
 end
 
 Int32Sizer = _SimpleSizer(_SignedVarintSize)
-Int64Sizer = _Int64Sizer(_int64size)
+Int64Sizer = _SimpleSizer(_int64size)
 EnumSizer = Int32Sizer
 
 UInt32Sizer = _SimpleSizer(_VarintSize)
-UInt64Sizer = UInt32Sizer 
+UInt64Sizer = _SimpleSizer(_uint64size) 
 
 SInt32Sizer = _ModifiedSizer(_SignedVarintSize, wire_format.ZigZagEncode)
 SInt64Sizer = SInt32Sizer
@@ -226,6 +221,7 @@ end
 local _EncodeVarint = pb.varint_encoder
 local _EncodeSignedVarint = pb.signed_varint_encoder
 local _EncodeInt64Varint = pb.int64_encoder
+local _EncodeUInt64Varint = pb.uint64_encoder
 
 
 function _VarintBytes(value)
@@ -271,16 +267,6 @@ function _SimpleEncoder(wire_type, encode_value, compute_value_size)
                 write(tag_bytes)
                 encode_value(write, value)
             end
-        end
-    end
-end
-
-function _Int64Encoder(wire_type, encode_value, compute_value_size)
-    return function(field_number, is_repeated, is_packed)
-        local tag_bytes = TagBytes(field_number, wire_type)
-        return function(write, value)
-            write(tag_bytes)
-            encode_value(write, value)
         end
     end
 end
@@ -352,11 +338,11 @@ function _StructPackEncoder(wire_type, value_size, format)
 end
 
 Int32Encoder = _SimpleEncoder(wire_format.WIRETYPE_VARINT, _EncodeSignedVarint, _SignedVarintSize)
-Int64Encoder = _Int64Encoder(wire_format.WIRETYPE_VARINT, _EncodeInt64Varint, _int64size)
+Int64Encoder = _SimpleEncoder(wire_format.WIRETYPE_VARINT, _EncodeInt64Varint, _int64size)
 EnumEncoder = Int32Encoder
 
 UInt32Encoder = _SimpleEncoder(wire_format.WIRETYPE_VARINT, _EncodeVarint, _VarintSize)
-UInt64Encoder = UInt32Encoder
+UInt64Encoder = _SimpleEncoder(wire_format.WIRETYPE_VARINT, _EncodeUInt64Varint, _uint64size)
 
 SInt32Encoder = _ModifiedEncoder(
     wire_format.WIRETYPE_VARINT, _EncodeVarint, _VarintSize,

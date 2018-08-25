@@ -28,6 +28,8 @@ local string = string
 local tostring = tostring
 local type = type
 local assert = assert
+local tonumber = tonumber
+local getmetatable = getmetatable
 
 local pb = require "pb"
 local wire_format = require "wire_format"
@@ -141,7 +143,7 @@ local _VALUE_CHECKERS = {
     [FieldDescriptor.CPPTYPE_INT32] = type_checkers.Int32ValueChecker(),
     [FieldDescriptor.CPPTYPE_INT64] = type_checkers.TypeChecker({userdata = true}),
     [FieldDescriptor.CPPTYPE_UINT32] = type_checkers.Uint32ValueChecker(),
-    [FieldDescriptor.CPPTYPE_UINT64] = type_checkers.Uint32ValueChecker(),
+    [FieldDescriptor.CPPTYPE_UINT64] = type_checkers.TypeChecker({userdata = true}),
     [FieldDescriptor.CPPTYPE_DOUBLE] = type_checkers.TypeChecker({number = true}),
     [FieldDescriptor.CPPTYPE_FLOAT] = type_checkers.TypeChecker({number = true}),
     [FieldDescriptor.CPPTYPE_BOOL] = type_checkers.TypeChecker({boolean = true, bool = true, int=true}),
@@ -293,7 +295,14 @@ local function _DefaultValueConstructorForField(field)
     end
     if field.cpp_type == FieldDescriptor.CPPTYPE_INT64 then
         return function (message)
-            return int64.new() 
+            local u = int64.new() 
+            return u
+        end
+    end
+    if field.cpp_type == FieldDescriptor.CPPTYPE_UINT64 then
+        return function (message)
+            local u = uint64.new() 
+            return u
         end
     end
     return function (message)
@@ -308,7 +317,6 @@ local function _AttachFieldHelpers(message_meta, field_descriptor)
     rawset(field_descriptor, "_encoder", TYPE_TO_ENCODER[field_descriptor.type](field_descriptor.number, is_repeated, is_packed))
     rawset(field_descriptor, "_sizer", TYPE_TO_SIZER[field_descriptor.type](field_descriptor.number, is_repeated, is_packed))
     rawset(field_descriptor, "_default_constructor", _DefaultValueConstructorForField(field_descriptor))
-
     local AddDecoder = function(wiretype, is_packed)
         local tag_bytes = encoder.TagBytes(field_descriptor.number, wiretype)
         message_meta._decoders_by_tag[tag_bytes] = TYPE_TO_DECODER[field_descriptor.type](field_descriptor.number, is_repeated, is_packed, field_descriptor, field_descriptor._default_constructor)

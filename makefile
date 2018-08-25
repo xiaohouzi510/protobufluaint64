@@ -7,8 +7,8 @@ all : main pb.so
 main : $(cpp_file)
 	g++ -g -Wl,-E -o $@ $^ -llua -ldl -lprotobuf $(includePath) $(libPath)
 	
-pb.so : pb.cpp
-	gcc -g -fPIC --shared -o $@ $^ $(includePath) $(libPath)
+pb.so : pb.cpp luint64.cpp lint64.cpp
+	gcc -g -fPIC --shared -o $@ $^ 
 
 clean :
 	rm -rf main pb.so

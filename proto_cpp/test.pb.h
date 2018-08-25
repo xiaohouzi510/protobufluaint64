@@ -31,9 +31,102 @@ void  protobuf_AddDesc_test_2eproto();
 void protobuf_AssignDesc_test_2eproto();
 void protobuf_ShutdownFile_test_2eproto();
 
+class TestData;
 class SSInt64Test;
 
 // ===================================================================
+
+class TestData : public ::google::protobuf::Message {
+ public:
+  TestData();
+  virtual ~TestData();
+
+  TestData(const TestData& from);
+
+  inline TestData& operator=(const TestData& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const TestData& default_instance();
+
+  void Swap(TestData* other);
+
+  // implements Message ----------------------------------------------
+
+  TestData* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const TestData& from);
+  void MergeFrom(const TestData& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional int64 SelfID = 1;
+  inline bool has_selfid() const;
+  inline void clear_selfid();
+  static const int kSelfIDFieldNumber = 1;
+  inline ::google::protobuf::int64 selfid() const;
+  inline void set_selfid(::google::protobuf::int64 value);
+
+  // optional uint64 OtherID = 2;
+  inline bool has_otherid() const;
+  inline void clear_otherid();
+  static const int kOtherIDFieldNumber = 2;
+  inline ::google::protobuf::uint64 otherid() const;
+  inline void set_otherid(::google::protobuf::uint64 value);
+
+  // @@protoc_insertion_point(class_scope:TestData)
+ private:
+  inline void set_has_selfid();
+  inline void clear_has_selfid();
+  inline void set_has_otherid();
+  inline void clear_has_otherid();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::int64 selfid_;
+  ::google::protobuf::uint64 otherid_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+
+  friend void  protobuf_AddDesc_test_2eproto();
+  friend void protobuf_AssignDesc_test_2eproto();
+  friend void protobuf_ShutdownFile_test_2eproto();
+
+  void InitAsDefaultInstance();
+  static TestData* default_instance_;
+};
+// -------------------------------------------------------------------
 
 class SSInt64Test : public ::google::protobuf::Message {
  public:
@@ -96,37 +189,86 @@ class SSInt64Test : public ::google::protobuf::Message {
   inline ::google::protobuf::int32 pvptype() const;
   inline void set_pvptype(::google::protobuf::int32 value);
 
-  // optional int64 TeamID = 2;
+  // optional int32 HardType = 2;
+  inline bool has_hardtype() const;
+  inline void clear_hardtype();
+  static const int kHardTypeFieldNumber = 2;
+  inline ::google::protobuf::int32 hardtype() const;
+  inline void set_hardtype(::google::protobuf::int32 value);
+
+  // optional int64 TeamID = 3;
   inline bool has_teamid() const;
   inline void clear_teamid();
-  static const int kTeamIDFieldNumber = 2;
+  static const int kTeamIDFieldNumber = 3;
   inline ::google::protobuf::int64 teamid() const;
   inline void set_teamid(::google::protobuf::int64 value);
 
-  // optional int32 HardType = 3;
-  inline bool has_hardtype() const;
-  inline void clear_hardtype();
-  static const int kHardTypeFieldNumber = 3;
-  inline ::google::protobuf::int32 hardtype() const;
-  inline void set_hardtype(::google::protobuf::int32 value);
+  // repeated int64 TeamIDs = 4;
+  inline int teamids_size() const;
+  inline void clear_teamids();
+  static const int kTeamIDsFieldNumber = 4;
+  inline ::google::protobuf::int64 teamids(int index) const;
+  inline void set_teamids(int index, ::google::protobuf::int64 value);
+  inline void add_teamids(::google::protobuf::int64 value);
+  inline const ::google::protobuf::RepeatedField< ::google::protobuf::int64 >&
+      teamids() const;
+  inline ::google::protobuf::RepeatedField< ::google::protobuf::int64 >*
+      mutable_teamids();
+
+  // optional uint64 RoleID = 5;
+  inline bool has_roleid() const;
+  inline void clear_roleid();
+  static const int kRoleIDFieldNumber = 5;
+  inline ::google::protobuf::uint64 roleid() const;
+  inline void set_roleid(::google::protobuf::uint64 value);
+
+  // repeated uint64 RoleIDs = 6;
+  inline int roleids_size() const;
+  inline void clear_roleids();
+  static const int kRoleIDsFieldNumber = 6;
+  inline ::google::protobuf::uint64 roleids(int index) const;
+  inline void set_roleids(int index, ::google::protobuf::uint64 value);
+  inline void add_roleids(::google::protobuf::uint64 value);
+  inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >&
+      roleids() const;
+  inline ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >*
+      mutable_roleids();
+
+  // repeated .TestData Datas = 7;
+  inline int datas_size() const;
+  inline void clear_datas();
+  static const int kDatasFieldNumber = 7;
+  inline const ::TestData& datas(int index) const;
+  inline ::TestData* mutable_datas(int index);
+  inline ::TestData* add_datas();
+  inline const ::google::protobuf::RepeatedPtrField< ::TestData >&
+      datas() const;
+  inline ::google::protobuf::RepeatedPtrField< ::TestData >*
+      mutable_datas();
 
   // @@protoc_insertion_point(class_scope:SSInt64Test)
  private:
   inline void set_has_pvptype();
   inline void clear_has_pvptype();
-  inline void set_has_teamid();
-  inline void clear_has_teamid();
   inline void set_has_hardtype();
   inline void clear_has_hardtype();
+  inline void set_has_teamid();
+  inline void clear_has_teamid();
+  inline void set_has_roleid();
+  inline void clear_has_roleid();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
-  ::google::protobuf::int64 teamid_;
   ::google::protobuf::int32 pvptype_;
   ::google::protobuf::int32 hardtype_;
+  ::google::protobuf::int64 teamid_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int64 > teamids_;
+  ::google::protobuf::uint64 roleid_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::uint64 > roleids_;
+  ::google::protobuf::RepeatedPtrField< ::TestData > datas_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(7 + 31) / 32];
 
   friend void  protobuf_AddDesc_test_2eproto();
   friend void protobuf_AssignDesc_test_2eproto();
@@ -139,6 +281,54 @@ class SSInt64Test : public ::google::protobuf::Message {
 
 
 // ===================================================================
+
+// TestData
+
+// optional int64 SelfID = 1;
+inline bool TestData::has_selfid() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void TestData::set_has_selfid() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void TestData::clear_has_selfid() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void TestData::clear_selfid() {
+  selfid_ = GOOGLE_LONGLONG(0);
+  clear_has_selfid();
+}
+inline ::google::protobuf::int64 TestData::selfid() const {
+  return selfid_;
+}
+inline void TestData::set_selfid(::google::protobuf::int64 value) {
+  set_has_selfid();
+  selfid_ = value;
+}
+
+// optional uint64 OtherID = 2;
+inline bool TestData::has_otherid() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void TestData::set_has_otherid() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void TestData::clear_has_otherid() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void TestData::clear_otherid() {
+  otherid_ = GOOGLE_ULONGLONG(0);
+  clear_has_otherid();
+}
+inline ::google::protobuf::uint64 TestData::otherid() const {
+  return otherid_;
+}
+inline void TestData::set_otherid(::google::protobuf::uint64 value) {
+  set_has_otherid();
+  otherid_ = value;
+}
+
+// -------------------------------------------------------------------
 
 // SSInt64Test
 
@@ -164,15 +354,37 @@ inline void SSInt64Test::set_pvptype(::google::protobuf::int32 value) {
   pvptype_ = value;
 }
 
-// optional int64 TeamID = 2;
-inline bool SSInt64Test::has_teamid() const {
+// optional int32 HardType = 2;
+inline bool SSInt64Test::has_hardtype() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void SSInt64Test::set_has_teamid() {
+inline void SSInt64Test::set_has_hardtype() {
   _has_bits_[0] |= 0x00000002u;
 }
-inline void SSInt64Test::clear_has_teamid() {
+inline void SSInt64Test::clear_has_hardtype() {
   _has_bits_[0] &= ~0x00000002u;
+}
+inline void SSInt64Test::clear_hardtype() {
+  hardtype_ = 0;
+  clear_has_hardtype();
+}
+inline ::google::protobuf::int32 SSInt64Test::hardtype() const {
+  return hardtype_;
+}
+inline void SSInt64Test::set_hardtype(::google::protobuf::int32 value) {
+  set_has_hardtype();
+  hardtype_ = value;
+}
+
+// optional int64 TeamID = 3;
+inline bool SSInt64Test::has_teamid() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void SSInt64Test::set_has_teamid() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void SSInt64Test::clear_has_teamid() {
+  _has_bits_[0] &= ~0x00000004u;
 }
 inline void SSInt64Test::clear_teamid() {
   teamid_ = GOOGLE_LONGLONG(0);
@@ -186,26 +398,101 @@ inline void SSInt64Test::set_teamid(::google::protobuf::int64 value) {
   teamid_ = value;
 }
 
-// optional int32 HardType = 3;
-inline bool SSInt64Test::has_hardtype() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
+// repeated int64 TeamIDs = 4;
+inline int SSInt64Test::teamids_size() const {
+  return teamids_.size();
 }
-inline void SSInt64Test::set_has_hardtype() {
-  _has_bits_[0] |= 0x00000004u;
+inline void SSInt64Test::clear_teamids() {
+  teamids_.Clear();
 }
-inline void SSInt64Test::clear_has_hardtype() {
-  _has_bits_[0] &= ~0x00000004u;
+inline ::google::protobuf::int64 SSInt64Test::teamids(int index) const {
+  return teamids_.Get(index);
 }
-inline void SSInt64Test::clear_hardtype() {
-  hardtype_ = 0;
-  clear_has_hardtype();
+inline void SSInt64Test::set_teamids(int index, ::google::protobuf::int64 value) {
+  teamids_.Set(index, value);
 }
-inline ::google::protobuf::int32 SSInt64Test::hardtype() const {
-  return hardtype_;
+inline void SSInt64Test::add_teamids(::google::protobuf::int64 value) {
+  teamids_.Add(value);
 }
-inline void SSInt64Test::set_hardtype(::google::protobuf::int32 value) {
-  set_has_hardtype();
-  hardtype_ = value;
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int64 >&
+SSInt64Test::teamids() const {
+  return teamids_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int64 >*
+SSInt64Test::mutable_teamids() {
+  return &teamids_;
+}
+
+// optional uint64 RoleID = 5;
+inline bool SSInt64Test::has_roleid() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void SSInt64Test::set_has_roleid() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void SSInt64Test::clear_has_roleid() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void SSInt64Test::clear_roleid() {
+  roleid_ = GOOGLE_ULONGLONG(0);
+  clear_has_roleid();
+}
+inline ::google::protobuf::uint64 SSInt64Test::roleid() const {
+  return roleid_;
+}
+inline void SSInt64Test::set_roleid(::google::protobuf::uint64 value) {
+  set_has_roleid();
+  roleid_ = value;
+}
+
+// repeated uint64 RoleIDs = 6;
+inline int SSInt64Test::roleids_size() const {
+  return roleids_.size();
+}
+inline void SSInt64Test::clear_roleids() {
+  roleids_.Clear();
+}
+inline ::google::protobuf::uint64 SSInt64Test::roleids(int index) const {
+  return roleids_.Get(index);
+}
+inline void SSInt64Test::set_roleids(int index, ::google::protobuf::uint64 value) {
+  roleids_.Set(index, value);
+}
+inline void SSInt64Test::add_roleids(::google::protobuf::uint64 value) {
+  roleids_.Add(value);
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >&
+SSInt64Test::roleids() const {
+  return roleids_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::uint64 >*
+SSInt64Test::mutable_roleids() {
+  return &roleids_;
+}
+
+// repeated .TestData Datas = 7;
+inline int SSInt64Test::datas_size() const {
+  return datas_.size();
+}
+inline void SSInt64Test::clear_datas() {
+  datas_.Clear();
+}
+inline const ::TestData& SSInt64Test::datas(int index) const {
+  return datas_.Get(index);
+}
+inline ::TestData* SSInt64Test::mutable_datas(int index) {
+  return datas_.Mutable(index);
+}
+inline ::TestData* SSInt64Test::add_datas() {
+  return datas_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::TestData >&
+SSInt64Test::datas() const {
+  return datas_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::TestData >*
+SSInt64Test::mutable_datas() {
+  return &datas_;
 }
 
 

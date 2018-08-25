@@ -1,8 +1,18 @@
 syntax = "proto2";
 
+message TestData
+{
+	optional int64 SelfID   = 1;
+	optional uint64 OtherID = 2; 
+}
+
 message SSInt64Test
 {
     optional int32 PvpType      = 1;
-    optional int64 TeamID       = 2;
-    optional int32 HardType     = 3;
+    optional int32 HardType     = 2;
+    optional int64 TeamID       = 3;
+    repeated int64 TeamIDs      = 4;
+    optional uint64 RoleID      = 5;
+    repeated uint64 RoleIDs     = 6;
+    repeated TestData Datas     = 7; 
 }

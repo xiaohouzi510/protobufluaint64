@@ -23,6 +23,8 @@ local error = error
 local print = print
 local pairs = pairs
 local tostring = tostring
+local getmetatable = getmetatable
+local type = type
 
 local pb = require "pb"
 local encoder = require "encoder"
@@ -32,6 +34,7 @@ module "decoder"
 local _DecodeVarint = pb.varint_decoder
 local _DecodeSignedVarint = pb.signed_varint_decoder
 local _DecodeInt64 = pb.int64_decoder
+local _DecodeUInt64 = pb.uint64_decoder
 
 local _DecodeVarint32 = pb.varint_decoder
 local _DecodeSignedVarint32 = pb.signed_varint_decoder
@@ -100,19 +103,6 @@ local function _SimpleDecoder(wire_type, decode_value)
     end
 end
 
-local function _Int64Decoder(wire_type, decode_value)
-    return function(field_number, is_repeated, is_packed, key, new_default)
-        return function (buffer, pos, pend, message, field_dict)
-            field_dict[key], pos = decode_value(buffer, pos)
-            if pos > pend then
-                field_dict[key] = nil
-                error('Truncated message.')
-            end
-            return pos
-        end
-    end
-end
-
 local function _ModifiedDecoder(wire_type, decode_value, modify_value)
     local InnerDecode = function (buffer, pos)
         local result, new_pos = decode_value(buffer, pos)
@@ -139,10 +129,10 @@ end
 Int32Decoder = _SimpleDecoder(wire_format.WIRETYPE_VARINT, _DecodeSignedVarint32)
 EnumDecoder = Int32Decoder
 
-Int64Decoder = _Int64Decoder(wire_format.WIRETYPE_VARINT, _DecodeInt64)
+Int64Decoder = _SimpleDecoder(wire_format.WIRETYPE_VARINT, _DecodeInt64)
 
 UInt32Decoder = _SimpleDecoder(wire_format.WIRETYPE_VARINT, _DecodeVarint32)
-UInt64Decoder = _SimpleDecoder(wire_format.WIRETYPE_VARINT, _DecodeVarint)
+UInt64Decoder = _SimpleDecoder(wire_format.WIRETYPE_VARINT, _DecodeUInt64)
 
 SInt32Decoder = _ModifiedDecoder(wire_format.WIRETYPE_VARINT, _DecodeVarint32, wire_format.ZigZagDecode32)
 SInt64Decoder = _ModifiedDecoder(wire_format.WIRETYPE_VARINT, _DecodeVarint, wire_format.ZigZagDecode64)

@@ -5,9 +5,10 @@ require "test_pb"
 
 local stProto1 = test_pb.SSInt64Test()
 stProto1:ParseFromString(sStr1)
-print(tostring(stProto1))
-
-local stProto2 = test_pb.SSInt64Test()
+print("------------------------------")
+print(stProto1)
+print("------------------------------")
 local sStr2 = stProto1:SerializeToString()
-stProto2:ParseFromString(sStr1)
-print(tostring(stProto2))
+local stProto2 = test_pb.SSInt64Test()
+stProto2:ParseFromString(sStr2)
+print(stProto2)
