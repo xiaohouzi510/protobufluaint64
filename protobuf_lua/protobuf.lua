@@ -30,8 +30,6 @@ local type = type
 local assert = assert
 local tonumber = tonumber
 local getmetatable = getmetatable
-local int64 = int64
-local uint64 = uint64
 
 local pb = require "pb"
 local wire_format = require "wire_format"
@@ -43,6 +41,9 @@ local containers = require "containers"
 local descriptor = require "descriptor"
 local FieldDescriptor = descriptor.FieldDescriptor
 local text_format = require "text_format"
+
+local int64 = int64
+local uint64 = uint64
 
 module("protobuf")
 
